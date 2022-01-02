@@ -1,0 +1,61 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active">Home</li>
+  </ol>
+</nav>
+
+<div *ngIf="loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div class="container-fluid">
+  <div class="row pt-3 pb-3">
+    <div class="col">
+      <input type="hidden" id="id" name="id" [(ngModel)]="id">
+      <div class="form-group">
+        <input type="text" placeholder="Name" class="form-control" id="name" [(ngModel)]="name">
+      </div>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-success" (click)="onClickAddUpdate()" [disabled]="!this.name">
+        Save
+      </button>
+      <button type="button" class="btn btn-secondary ml-2" *ngIf="this.id" (click)="clearForm()">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="people.length === 0">
+            <td colspan="3" class="text-center">No person registered</td>
+          </tr>
+          <tr *ngFor="let person of people; index as i">
+            <td>{{ person.id }}</td>
+            <td>{{ person.name }}</td>
+            <td class="text-right">
+              <button type="button" class="btn btn-info mr-2" title="Contacts" [routerLink]="['/contacts', person.id]">
+                <i class="bi bi-telephone"></i>
+              </button>
+              <button type="button" class="btn btn-primary mr-2" title="Edit" (click)="onClickEdit(person)">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button type="button" class="btn btn-danger" title="Delete" (click)="onClickDelete(person.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

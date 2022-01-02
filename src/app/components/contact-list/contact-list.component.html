@@ -1,0 +1,64 @@
+<div *ngIf="loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<nav aria-label="breadcrumb" *ngIf="person">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ person.name }}</li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="row pt-3 pb-3">
+    <div class="col">
+      <select class="form-control" [(ngModel)]="idContactType" required>
+        <option *ngFor="let contactType of contactTypeOptions" [value]="contactType.id">{{ contactType.name }}</option>
+      </select>
+    </div>
+    <div class="col">
+      <input class="form-control" type="text" placeholder="Contact" [(ngModel)]="content">
+    </div>
+    <div class="col">
+      <button class="btn btn-success" [disabled]="!idContactType || !content" (click)="onClickAddUpdate()">
+        Save
+      </button>
+      <button type="button" class="btn btn-secondary ml-2" *ngIf="this.id" (click)="clearForm()">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Contact</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="contacts.length === 0">
+            <td colspan="3" class="text-center">No person registered</td>
+          </tr>
+          <tr *ngFor="let contact of contacts; index as i">
+            <td>{{ contact.id }}</td>
+            <td>{{ contact.contact_type.name }}</td>
+            <td>{{ contact.content }}</td>
+            <td class="text-right">
+              <button type="button" class="btn btn-primary mr-2" title="Edit" (click)="onClickEdit(contact)">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button type="button" class="btn btn-danger" title="Delete" (click)="onClickDelete(contact.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
